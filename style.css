@@ -1,0 +1,111 @@
+body {
+	background-color: grey;
+	margin-bottom: 60px;
+}
+main {
+	padding: 2rem;
+}
+
+nav.navbar {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+.navbar .container-fluid {
+	justify-content: start;
+}
+.navbar h1 {
+	padding-right: 2rem;
+}
+.navbar h1.navbar-brand {
+	font-size:2rem;
+}
+.navbar ul {
+	flex-direction: row;
+}
+.navbar ul li {
+	padding-right: 1.5rem;
+}
+.navbar ul:last-of-type {
+	margin-left:auto;
+}
+
+.input-group, .input-group-vertical {
+	margin: 1rem 0 1rem;
+}
+.input-group-top {
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	color: #212529;
+	text-align: center;
+	white-space: nowrap;
+	background-color: #e9ecef;
+	border: 1px solid #ced4da;
+	border-bottom: none;
+	border-radius: .25rem .25rem 0 0;
+}
+.input-group-vertical input:first-of-type, .input-group-vertical textarea, .input-group-vertical .note-editor.note-frame {
+	margin-top: 0;
+	border-top-left-radius: 0;
+}
+.input-group-vertical input {
+	margin-bottom: .5rem;
+}
+label, .input-group label {
+	margin:0;
+	color:black;
+}
+.input-group label {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-right:none;
+}
+textarea, .note-editor.note-frame .note-editing-area, .note-editor.note-frame .note-editable {
+	min-height: 15rem;
+}
+.btn-group-lg > .btn, .btn-lg {
+	padding: .25rem 1rem 0.5rem;
+}
+
+.card ~ .card {
+	/* All .card except first one */
+	margin: 2.5rem 0;
+}
+.note-card .card-header {
+	display: flex;
+	justify-content: space-between;
+}
+.note-card .card-header h3, .note-card .card-header a {
+	font-size:1.33rem;
+	display: inline-block;
+}
+.note-card a {
+	color: rgb(52, 58, 64);
+}
+.note-card a:hover {
+	color: rgba(52, 58, 64, 0.7);
+}
+.note-card .card-header .card-buttons a {
+	display: inline-block;
+	margin-left: 1.33rem;
+}
+.note-card .card-body {
+	padding-right: 4rem;
+}
+.note-card .auteur {
+	font-weight: bold;
+}
+.note-card .source {
+	font-style: italic;
+}
+.note-card .card-bottom {
+	display: flex;
+	justify-content: space-between;
+}
+.note-card ul {
+	list-style: none;
+	padding-left: 0;
+}
+.note-card ul li {
+	display: inline-block;
+}

@@ -1,0 +1,19 @@
+DirectoryIndex liste.php
+Options +FollowSymLinks
+RewriteEngine On
+RewriteBase /notes/
+
+#Test
+#RewriteRule ^fez index.php
+
+#Note edit
+RewriteRule ^note/([0-9]+)/*$ note.php?id=$1 [L]
+
+#Filters
+RewriteRule ^auteur/(.*)/*$ liste.php?auteur=$1 [L]
+RewriteRule ^source/(.*)/*$ liste.php?source=$1 [L]
+RewriteRule ^categorie/(.*)/*$ liste.php?categorie=$1 [L]
+RewriteRule ^motcle/(.*)/*$ liste.php?motcle=$1 [L]
+RewriteRule ^recherche/*$ liste.php [QSA,L]
+
+RewriteRule ^([a-zA-Z_]+)/*$ $1.php [L]

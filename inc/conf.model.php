@@ -1,6 +1,6 @@
 <?php
 
-// Modify the following constants according to your own web server configuration
+// Rename this file "conf.php" and modify the following constants according to your own server configuration
 
 define("DB_NAME", "");
 

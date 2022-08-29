@@ -162,7 +162,7 @@ class User {
 		global $pdo;
 		$authors = array();
 
-		$sql = "SELECT author, COUNT(DISTINCT(author)) as count FROM note WHERE note.user_id = :user GROUP BY author";
+		$sql = "SELECT author, COUNT(author) as count FROM note WHERE note.user_id = :user AND delete_datetime IS NULL GROUP BY author ORDER BY count DESC";
 		$statement = $pdo->prepare($sql);
 		$statement->bindParam(':user', $this->id);
 		$statement->execute();
@@ -181,7 +181,7 @@ class User {
 		global $pdo;
 		$sources = array();
 
-		$sql = "SELECT source, COUNT(DISTINCT(source)) as count FROM note WHERE note.user_id = :user GROUP BY source";
+		$sql = "SELECT source, COUNT(source) as count FROM note WHERE note.user_id = :user AND delete_datetime IS NULL GROUP BY source ORDER BY count DESC";
 		$statement = $pdo->prepare($sql);
 		$statement->bindParam(':user', $this->id);
 		$statement->execute();
@@ -201,7 +201,7 @@ class User {
 		$categories = array();
 
 		// $sql = "SELECT DISTINCT category FROM category INNER JOIN note ON category.note_id = note.id AND note.user_id = :user";
-		$sql = "SELECT category, COUNT(DISTINCT(category)) as count FROM category INNER JOIN note ON category.note_id = note.id AND note.user_id = :user GROUP BY category";
+		$sql = "SELECT category, COUNT(category) as count FROM category INNER JOIN note ON category.note_id = note.id AND note.user_id = :user AND delete_datetime IS NULL GROUP BY category ORDER BY count DESC";
 		$statement = $pdo->prepare($sql);
 		$statement->bindParam(':user', $this->id);
 		$statement->execute();
@@ -220,7 +220,7 @@ class User {
 		global $pdo;
 		$keywords = array();
 
-		$sql = "SELECT keyword, COUNT(DISTINCT(keyword)) as count FROM keyword INNER JOIN note ON keyword.note_id = note.id AND note.user_id = :user GROUP BY keyword";
+		$sql = "SELECT keyword, COUNT(keyword) as count FROM keyword INNER JOIN note ON keyword.note_id = note.id AND note.user_id = :user AND delete_datetime IS NULL GROUP BY keyword ORDER BY count DESC";
 		$statement = $pdo->prepare($sql);
 		$statement->bindParam(':user', $this->id);
 		$statement->execute();

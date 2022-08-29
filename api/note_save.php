@@ -20,7 +20,7 @@ try {
 	$note->store();
 }
 catch (Exception $e) {
-	$message = $e;
+	$message = $e->getMessage();
 	$success = false;
 }
 

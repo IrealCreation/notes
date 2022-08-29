@@ -38,11 +38,15 @@ $sources = $user->loadAllSources();
 						<th>Nombre de notes</th>
 						<th>Éditer</th>
 					</tr>
-					<?php foreach($categories as $categorie => $count) { ?>
+					<?php foreach($categories as $category => $count) { ?>
 						<tr>
-								<td><a href="<?= ROOTHTML ?>/categorie/<?= $categorie ?>"><?= $categorie ?></a></td>
+								<td><a href="<?= ROOTHTML ?>/categorie/<?= $category ?>"><?= $category ?></a></td>
 								<td><?= $count ?></td>
-								<td><button class="btn btn-warning"><span class="bi-pencil"></span></button></td>
+								<td>
+									<form onsubmit="return editThesaurus(this, 'category', '<?= $category ?>');">
+										<input type="text" placeholder="Nouvelle valeur..." name="newValue" class="form-control"><button class="btn btn-warning" type="submit"><span class="bi-pencil"></span></button>
+									</form>
+								</td>
 						</tr>
 					<?php } ?>
 				</table>
@@ -62,9 +66,13 @@ $sources = $user->loadAllSources();
 					</tr>
 					<?php foreach($keywords as $keyword => $count) { ?>
 						<tr>
-								<td><a href="<?= ROOTHTML ?>/keyword/<?= $keyword ?>"><?= $keyword ?></a></td>
+								<td><a href="<?= ROOTHTML ?>/motcle/<?= $keyword ?>"><?= $keyword ?></a></td>
 								<td><?= $count ?></td>
-								<td><button class="btn btn-warning"><span class="bi-pencil"></span></button></td>
+								<td>
+									<form onsubmit="return editThesaurus(this, 'keyword', '<?= $keyword ?>');">
+										<input type="text" placeholder="Nouvelle valeur..." name="newValue" class="form-control"><button class="btn btn-warning" type="submit"><span class="bi-pencil"></span></button>
+									</form>
+								</td>
 						</tr>
 					<?php } ?>
 				</table>
@@ -84,9 +92,13 @@ $sources = $user->loadAllSources();
 					</tr>
 					<?php foreach($authors as $author => $count) { ?>
 						<tr>
-								<td><a href="<?= ROOTHTML ?>/author/<?= $author ?>"><?= $author ?></a></td>
+								<td><a href="<?= ROOTHTML ?>/auteur/<?= $author ?>"><?= $author ?></a></td>
 								<td><?= $count ?></td>
-								<td><button class="btn btn-warning"><span class="bi-pencil"></span></button></td>
+								<td>
+									<form onsubmit="return editThesaurus(this, 'author', '<?= $author ?>');">
+										<input type="text" placeholder="Nouvelle valeur..." name="newValue" class="form-control"><button class="btn btn-warning" type="submit"><span class="bi-pencil"></span></button>
+									</form>
+								</td>
 						</tr>
 					<?php } ?>
 				</table>
@@ -108,7 +120,11 @@ $sources = $user->loadAllSources();
 						<tr>
 								<td><a href="<?= ROOTHTML ?>/source/<?= $source ?>"><?= $source ?></a></td>
 								<td><?= $count ?></td>
-								<td><button class="btn btn-warning"><span class="bi-pencil"></span></button></td>
+								<td>
+									<form onsubmit="return editThesaurus(this, 'source', '<?= $source ?>');">
+										<input type="text" placeholder="Nouvelle valeur..." name="newValue" class="form-control"><button class="btn btn-warning" type="submit"><span class="bi-pencil"></span></button>
+									</form>
+								</td>
 						</tr>
 					<?php } ?>
 				</table>
@@ -119,31 +135,48 @@ $sources = $user->loadAllSources();
 
 	<script type="text/javascript">
 
-		function deleteNote(id, auteur) {
-			if(confirm("Confirmer la mise à la corbeille de la note n°" + id + " (auteur : " + auteur + ")")) {
-				$.ajax({
-					url: "<?php echo ROOTHTML; ?>/api/note_delete.php",
-					type: "POST",
-					data: {
-						id: id,
-					},
-
-					success: function(data, status, jqXHR) {
-						console.log(data);
-						data = $.parseJSON(data);
-						if (data.success) {
-							toastr.success(data.message);
-							location.reload();
-						}
-						else {
-							toastr.error(data.message);
-						}
-					},
-					error: function(data, status, jqXHR) {
-						alert("Impossible d'établir la connexion");
-					},
-				});
+		function editThesaurus(form, field, oldValue) {
+			const UIText = {
+				"category": "la catégorie",
+				"keyword": "le mot-clé",
+				"author": "l'auteur",
+				"source": "la source"
 			}
+
+			var newValue = form.elements["newValue"].value;
+			console.log(newValue);
+
+			if(newValue != null && newValue != "")
+			{
+				if(confirm('Confirmer le remplacement de ' + UIText[field] + ' "' + oldValue +'"' + ' par "' + newValue +'" ?')) {
+					$.ajax({
+						url: "<?php echo ROOTHTML; ?>/api/thesaurus_edit.php",
+						type: "POST",
+						data: {
+							field: field,
+							oldValue: oldValue,
+							newValue: newValue,
+						},
+	
+						success: function(data, status, jqXHR) {
+							console.log(data);
+							data = $.parseJSON(data);
+							if (data.success) {
+								toastr.success(data.message);
+								location.reload();
+							}
+							else {
+								toastr.error(data.message);
+							}
+						},
+						error: function(data, status, jqXHR) {
+							console.log(data);
+							alert("Impossible d'établir la connexion");
+						},
+					});
+				}
+			}
+			return false;
 		}
 
 	</script>

@@ -10,6 +10,9 @@
 		        <li class="nav-item">
 		        	<a class="nav-link <?php if($title == 'Liste') echo 'active'; ?>" href="<?= ROOTHTML ?>/liste">Consulter</a>
 		        </li>
+		        <li class="nav-item">
+		        	<a class="nav-link <?php if($title == 'Thésaurus') echo 'active'; ?>" href="<?= ROOTHTML ?>/thesaurus">Thésaurus</a>
+		        </li>
 		    </ul>
 		    <ul class="navbar-nav">
 		    	<li>

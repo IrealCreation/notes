@@ -1,3 +1,8 @@
+/* Variables */
+:root {
+	--card-head-bg: rgba(0,0,0,.075);
+}
+
 body {
 	background-color: grey;
 	margin-bottom: 60px;
@@ -39,7 +44,7 @@ nav.navbar {
 	color: #212529;
 	text-align: center;
 	white-space: nowrap;
-	background-color: #e9ecef;
+	background-color: var(--card-head-bg);
 	border: 1px solid #ced4da;
 	border-bottom: none;
 	border-radius: .25rem .25rem 0 0;
@@ -108,4 +113,65 @@ textarea, .note-editor.note-frame .note-editing-area, .note-editor.note-frame .n
 }
 .note-card ul li {
 	display: inline-block;
+}
+
+/* Bootstrap overload */
+.alert {
+	margin: 1.25rem;
+}
+.card-header {
+	background-color: var(--card-head-bg);
+}
+
+.thesaurus-table {
+	width: 100%;
+	max-width: 1200px;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+.thesaurus-table tr > * {
+	padding: .375rem .75rem;
+	border-right: 1px solid rgba(0,0,0,.2);
+	border-bottom: 1px solid rgba(0,0,0,.2);
+}
+.thesaurus-table tr > *:nth-child(1) {
+	width: 50%;
+}
+.thesaurus-table tr > *:nth-child(2) {
+	width: 25%;
+}
+.thesaurus-table tr > *:nth-child(3) {
+	width: 25%;
+}
+/* Rounded corners */
+.thesaurus-table tr th:first-child,
+.thesaurus-table tr td:first-child {
+	border-left: 1px solid rgba(0,0,0,.2);
+}
+.thesaurus-table tr th {
+	border-top: 1px solid rgba(0,0,0,.2);
+	background-color: var(--card-head-bg);
+}
+.thesaurus-table tr:first-child th:first-child {
+	border-top-left-radius: 6px;
+}
+.thesaurus-table tr:first-child th:last-child {
+	border-top-right-radius: 6px;
+}
+.thesaurus-table tr:last-child td:first-child {
+	border-bottom-left-radius: 6px;
+}
+.thesaurus-table tr:last-child td:last-child {
+	border-bottom-right-radius: 6px;
+}
+.thesaurus-table .form-control {
+	width: calc(100% - 48px);
+	display: inline-block;
+	vertical-align: top;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.thesaurus-table form button {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 }

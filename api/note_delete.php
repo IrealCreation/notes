@@ -20,7 +20,7 @@ try {
 	$note->delete();
 }
 catch (Exception $e) {
-	$message = $e;
+	$message = $e->getMessage();
 	$success = false;
 }
 

@@ -89,101 +89,6 @@ class User {
 		return Note::NotesFromPDO($statement);
 	}
 
-	/*** OBSOLETE ***/
-	// function getNotesByAuthor(string $author) : array {
-	// 	global $pdo;
-
-	// 	$notes = array();
-
-	// 	$sql = "SELECT note.id as id, author, source, content, add_datetime, delete_datetime, GROUP_CONCAT(DISTINCT category SEPARATOR ';') as categories, GROUP_CONCAT(DISTINCT keyword SEPARATOR ';') as keywords 
-	// 		FROM note, category, keyword 
-	// 		WHERE author = :author AND user_id = :user AND category.note_id = note.id AND keyword.note_id = note.id AND delete_datetime IS NULL GROUP BY note.id";
-
-	// 	$statement = $pdo->prepare($sql);
-		
-	// 	$statement->bindParam(':user', $this->id);
-	// 	$statement->bindParam(':author', $author);
-
-	// 	$statement->execute();
-
-	// 	if($statement->errorInfo()[0] != '00000') {
-	// 		throw new Exception(__FILE__ . " line " . __LINE__ . " - " . $statement->errorInfo());
-	// 	}
-
-	// 	return Note::NotesFromPDO($statement);
-	// }
-
-	// function getNotesBySource(string $source) : array {
-	// 	global $pdo;
-
-	// 	$notes = array();
-
-	// 	$sql = "SELECT note.id as id, author, source, content, add_datetime, delete_datetime, GROUP_CONCAT(DISTINCT category SEPARATOR ';') as categories, GROUP_CONCAT(DISTINCT keyword SEPARATOR ';') as keywords 
-	// 		FROM note, category, keyword 
-	// 		WHERE source = :source AND user_id = :user AND category.note_id = note.id AND keyword.note_id = note.id AND delete_datetime IS NULL GROUP BY note.id";
-
-	// 	$statement = $pdo->prepare($sql);
-		
-	// 	$statement->bindParam(':user', $this->id);
-	// 	$statement->bindParam(':source', $source);
-
-	// 	$statement->execute();
-
-	// 	if($statement->errorInfo()[0] != '00000') {
-	// 		throw new Exception(__FILE__ . " line " . __LINE__ . " - " . $statement->errorInfo());
-	// 	}
-
-	// 	return Note::NotesFromPDO($statement);
-	// }
-
-	// function getNotesByCategory(string $category) : array {
-	// 	global $pdo;
-
-	// 	$notes = array();
-
-	// 	$sql = "SELECT note.id as id, author, source, content, add_datetime, delete_datetime, GROUP_CONCAT(DISTINCT category SEPARATOR ';') as categories, GROUP_CONCAT(DISTINCT keyword SEPARATOR ';') as keywords 
-	// 		FROM note, category, keyword 
-	// 		WHERE category = :category AND user_id = :user AND category.note_id = note.id AND keyword.note_id = note.id AND delete_datetime IS NULL GROUP BY note.id";
-	// 	// TODO: load all categories, not just the searched one
-
-	// 	$statement = $pdo->prepare($sql);
-		
-	// 	$statement->bindParam(':user', $this->id);
-	// 	$statement->bindParam(':category', $category);
-
-	// 	$statement->execute();
-
-	// 	if($statement->errorInfo()[0] != '00000') {
-	// 		throw new Exception(__FILE__ . " line " . __LINE__ . " - " . $statement->errorInfo());
-	// 	}
-
-	// 	return Note::NotesFromPDO($statement);
-	// }
-
-	// function getNotesByKeyword(string $keyword) : array {
-	// 	global $pdo;
-
-	// 	$notes = array();
-
-	// 	$sql = "SELECT note.id as id, author, source, content, add_datetime, delete_datetime, GROUP_CONCAT(DISTINCT category SEPARATOR ';') as categories, GROUP_CONCAT(DISTINCT keyword SEPARATOR ';') as keywords 
-	// 		FROM note, category, keyword 
-	// 		WHERE keyword = :keyword AND user_id = :user AND category.note_id = note.id AND keyword.note_id = note.id AND delete_datetime IS NULL GROUP BY note.id";
-	// 	// TODO: load all keywords, not just the searched one
-
-	// 	$statement = $pdo->prepare($sql);
-		
-	// 	$statement->bindParam(':user', $this->id);
-	// 	$statement->bindParam(':keyword', $keyword);
-
-	// 	$statement->execute();
-
-	// 	if($statement->errorInfo()[0] != '00000') {
-	// 		throw new Exception(__FILE__ . " line " . __LINE__ . " - " . $statement->errorInfo());
-	// 	}
-
-	// 	return Note::NotesFromPDO($statement);
-	// }
-
 	function searchNotes(array $filters) : array {
 		global $pdo;
 
@@ -328,6 +233,62 @@ class User {
 			$keywords[$result["keyword"]] = $result["count"];
 		}
 		return $keywords;
+	}
+
+	function editAuthor($oldValue, $newValue) {
+		global $pdo;
+		$sql = "UPDATE note SET author = :newValue WHERE author = :oldValue AND note.user_id = :user";
+		$statement = $pdo->prepare($sql);
+		$statement->bindParam(':oldValue', $oldValue);
+		$statement->bindParam(':newValue', $newValue);
+		$statement->bindParam(':user', $this->id);
+		$statement->execute();
+
+		if($statement->errorInfo()[0] != '00000') {
+			throw new Exception(__FILE__ . " line " . __LINE__ . " - " . $statement->errorInfo());
+		}
+	}
+
+	function editSource($oldValue, $newValue) {
+		global $pdo;
+		$sql = "UPDATE note SET source = :newValue WHERE source = :oldValue AND note.user_id = :user";
+		$statement = $pdo->prepare($sql);
+		$statement->bindParam(':oldValue', $oldValue);
+		$statement->bindParam(':newValue', $newValue);
+		$statement->bindParam(':user', $this->id);
+		$statement->execute();
+
+		if($statement->errorInfo()[0] != '00000') {
+			throw new Exception(__FILE__ . " line " . __LINE__ . " - " . $statement->errorInfo());
+		}
+	}
+
+	function editCategory($oldValue, $newValue) {
+		global $pdo;
+		$sql = "UPDATE category INNER JOIN note ON category.note_id = note.id SET category = :newValue WHERE category = :oldValue AND note.user_id = :user";
+		$statement = $pdo->prepare($sql);
+		$statement->bindParam(':oldValue', $oldValue);
+		$statement->bindParam(':newValue', $newValue);
+		$statement->bindParam(':user', $this->id);
+		$statement->execute();
+
+		if($statement->errorInfo()[0] != '00000') {
+			throw new Exception(__FILE__ . " line " . __LINE__ . " - " . $statement->errorInfo());
+		}
+	}
+
+	function editKeyword($oldValue, $newValue) {
+		global $pdo;
+		$sql = "UPDATE keyword INNER JOIN note ON keyword.note_id = note.id SET keyword = :newValue WHERE keyword = :oldValue AND note.user_id = :user";
+		$statement = $pdo->prepare($sql);
+		$statement->bindParam(':oldValue', $oldValue);
+		$statement->bindParam(':newValue', $newValue);
+		$statement->bindParam(':user', $this->id);
+		$statement->execute();
+
+		if($statement->errorInfo()[0] != '00000') {
+			throw new Exception(__FILE__ . " line " . __LINE__ . " - " . $statement->errorInfo());
+		}
 	}
 
 	static function load($id) : User {

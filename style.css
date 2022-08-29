@@ -10,6 +10,12 @@ body {
 main {
 	padding: 2rem;
 }
+a {
+	color: rgb(52, 58, 64);
+}
+a:hover {
+	color: rgba(52, 58, 64, 0.7);
+}
 
 nav.navbar {
 	padding-top: 0;
@@ -121,6 +127,9 @@ textarea, .note-editor.note-frame .note-editing-area, .note-editor.note-frame .n
 }
 .card-header {
 	background-color: var(--card-head-bg);
+}
+.navbar-inner ul:last-of-type {
+	margin-left: 0;
 }
 
 .thesaurus-table {

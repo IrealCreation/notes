@@ -28,6 +28,25 @@ $sources = $user->loadAllSources();
 	<main class="container-fluid">
 
 		<section class="card">
+			<nav class="navbar navbar-inner">
+				<ul class="navbar-nav">
+			        <li class="nav-item">
+			        	<a class="nav-link " href="#categories">Catégories</a>
+			        </li>
+			        <li class="nav-item">
+			        	<a class="nav-link " href="#motscles">Mots-clés</a>
+			        </li>
+			        <li class="nav-item">
+			        	<a class="nav-link " href="#auteurs">Auteurs</a>
+			        </li>
+			        <li class="nav-item">
+			        	<a class="nav-link " href="#sources">Sources</a>
+			        </li>
+			    </ul>
+			</nav>
+		</section>
+
+		<section class="card" id="categories">
 			<header class="card-header">
 				<h2>Catégories</h2>
 			</header>
@@ -53,7 +72,7 @@ $sources = $user->loadAllSources();
 			</div>
 		</section>
 
-		<section class="card">
+		<section class="card" id="motscles">
 			<header class="card-header">
 				<h2>Mots-clés</h2>
 			</header>
@@ -79,7 +98,7 @@ $sources = $user->loadAllSources();
 			</div>
 		</section>
 
-		<section class="card">
+		<section class="card" id="auteurs">
 			<header class="card-header">
 				<h2>Auteurs</h2>
 			</header>
@@ -105,7 +124,7 @@ $sources = $user->loadAllSources();
 			</div>
 		</section>
 
-		<section class="card">
+		<section class="card" id="sources">
 			<header class="card-header">
 				<h2>Sources</h2>
 			</header>

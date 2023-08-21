@@ -70,7 +70,7 @@ class User {
 		// 	FROM note, category, keyword 
 		// 	WHERE user_id = :user AND category.note_id = note.id AND keyword.note_id = note.id AND delete_datetime IS NULL GROUP BY note.id";
 
-		$sql = "SELECT note.id as id, author, source, content, add_datetime, delete_datetime, GROUP_CONCAT(DISTINCT category SEPARATOR ';') as categories, GROUP_CONCAT(DISTINCT keyword SEPARATOR ';') as keywords 
+		$sql = "SELECT note.id as id, author, source, content, add_datetime, delete_datetime, GROUP_CONCAT(DISTINCT category SEPARATOR ';') as _categories, GROUP_CONCAT(DISTINCT keyword SEPARATOR ';') as _keywords 
 			FROM note
 			LEFT JOIN category ON category.note_id = note.id
 			LEFT JOIN keyword ON keyword.note_id = note.id 
@@ -86,7 +86,8 @@ class User {
 			throw new Exception(__FILE__ . " line " . __LINE__ . " - " . $statement->errorInfo());
 		}
 
-		return Note::NotesFromPDO($statement);
+		$statement->setFetchMode(PDO::FETCH_CLASS, "Note");
+		return $statement->fetchAll();
 	}
 
 	function searchNotes(array $filters) : array {
@@ -120,7 +121,7 @@ class User {
 			$where.= "category = :category";
 		}
 
-		$sql = "SELECT note.id as id, author, source, content, add_datetime, delete_datetime, GROUP_CONCAT(DISTINCT category SEPARATOR ';') as categories, GROUP_CONCAT(DISTINCT keyword SEPARATOR ';') as keywords 
+		$sql = "SELECT note.id as id, author, source, content, add_datetime, delete_datetime, GROUP_CONCAT(DISTINCT category SEPARATOR ';') as _categories, GROUP_CONCAT(DISTINCT keyword SEPARATOR ';') as _keywords 
 			FROM note
 			LEFT JOIN category ON category.note_id = note.id
 			LEFT JOIN keyword ON keyword.note_id = note.id 
@@ -155,7 +156,8 @@ class User {
 			throw new Exception(__FILE__ . " line " . __LINE__ . " - " . $statement->errorInfo());
 		}
 
-		return Note::NotesFromPDO($statement);
+		$statement->setFetchMode(PDO::FETCH_CLASS, "Note");
+		return $statement->fetchAll();
 	}
 
 	function loadAllAuthors() : array {

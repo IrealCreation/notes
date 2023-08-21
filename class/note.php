@@ -31,7 +31,7 @@ class Note {
 			}
 		}
 		$this->_keywords = array();
-		if($categories !== null) {
+		if($keywords !== null) {
 			foreach($keywords as $keyword) {
 				$this->_keywords[] = trim($keyword);
 			}
@@ -258,7 +258,7 @@ class Note {
 		global $pdo;
 		global $user;
 
-		$sql = "SELECT note.id as id, author, source, content, add_datetime, delete_datetime, GROUP_CONCAT(DISTINCT category SEPARATOR ';') as categories, GROUP_CONCAT(DISTINCT keyword SEPARATOR ';') as keywords 
+		$sql = "SELECT note.id as id, author, source, content, add_datetime, delete_datetime, GROUP_CONCAT(DISTINCT category SEPARATOR ';') as _categories, GROUP_CONCAT(DISTINCT keyword SEPARATOR ';') as _keywords 
 			FROM note
 			LEFT JOIN category ON category.note_id = note.id
 			LEFT JOIN keyword ON keyword.note_id = note.id 
@@ -275,24 +275,12 @@ class Note {
 			throw new Exception(__FILE__ . " line " . __LINE__ . " - " . $statement->errorInfo());
 		}
 
-		return Note::NotesFromPDO($statement)[0];
+		$statement->setFetchMode(PDO::FETCH_CLASS, "Note");
+		return $statement->fetch();
 	}
 
 	static function loadAll() : array {
 		$sql = "SELECT * FROM note";
-	}
-
-	static function notesFromPDO($statement) : array {
-		$notes = array();
-		while($result = $statement->fetch(PDO::FETCH_ASSOC)) {
-			// Explode categories and keywords into arrays
-			$categories = explode(";", $result['categories']);
-			$keywords = explode(";", $result['keywords']);
-
-			// Create the note
-			$notes[] = new Note($result['id'], $result['author'], $result['source'], $result['content'], $categories, $keywords, $result['add_datetime'], $result['delete_datetime']);
-		}
-		return $notes;
 	}
 
 }

@@ -1,7 +1,7 @@
 DirectoryIndex liste.php
 Options +FollowSymLinks
 RewriteEngine On
-RewriteBase /notes/
+RewriteBase /
 
 #Test
 #RewriteRule ^fez index.php
